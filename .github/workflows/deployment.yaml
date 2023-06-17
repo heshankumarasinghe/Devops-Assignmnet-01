@@ -4,6 +4,7 @@ on:
     branches:
       - main
 jobs:
+  DB_CONNECTION_STRING: mongodb+srv://<DB_USER>:<PASSWORD>@cluster0.ezbuktp.mongodb.net/<DB_NAME>?retryWrites=true&w=majority
   test:
     environment: test
     runs-on: ubuntu-latest
