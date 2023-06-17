@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 env:
   DB_CONNECTION_STRING: mongodb+srv://<DB_USER>:<PASSWORD>@cluster0.ezbuktp.mongodb.net/<DB_NAME>?retryWrites=true&w=majority
   PORT: 8000
