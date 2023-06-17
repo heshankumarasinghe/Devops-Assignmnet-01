@@ -10,11 +10,16 @@ process.on('uncaughtException', (err) => {
 
 dotenv.config({ path: './config.env' });
 
-const DB = process.env.DATABASE.replace(
+const DB = process.env.DB_CONNECTION_STRING
+  .replace(
     '<PASSWORD>',
-    process.env.DATABASE_PASSWORD
+    process.env.DB_PASSWORD
+  )
+  .replace(
+      'DB_NAME',
+      process.env.DB_NAME
   );
-  
+
 mongoose
     .connect(DB, {
         useNewUrlParser: true,
