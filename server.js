@@ -1,45 +1,23 @@
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-process.on('uncaughtException', (err) => {
-    console.log('Unhandled Exception. Shutting Down...');
-    console.log(err.name, err.message);
+const apiRouter = require('./routes/api/apiRoutes');
+const globalErrorHandler = require('./middleware/globalErorrHandler');
 
-    process.exit(1);
-});
+const createServer = () => {
+    const app = express();
 
-dotenv.config({ path: './config.env' });
+    app.use(bodyParser.json());
 
-const DB = process.env.DB_CONNECTION_STRING
-  .replace(
-    '<PASSWORD>',
-    process.env.DB_PASSWORD
-  )
-  .replace(
-      'DB_NAME',
-      process.env.DB_NAME
-  );
+    app.use('/api/v1', apiRouter);
 
-mongoose
-    .connect(DB, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => console.log('Connected to the database successfully!'));
-
-const app = require('./app');
-
-const port = process.env.PORT || 8000;
-
-const server = app.listen(port, '0.0.0.0', () => {
-    console.log(`App running on port ${port}`);
-});
-
-process.on('unhandledRejection', (err) => {
-    console.log('Unhandled Rejection. Shutting Down...');
-    console.log(err);
-
-    server.close(() => {
-        process.exit(1);
+    app.all('*', (req, res, next) => {
+        next(new AppError(`Can not find ${req.originalUrl} on the server`, '404'))
     });
-});
+
+    app.use(globalErrorHandler);
+
+    return app;
+};
+
+module.exports = createServer;
