@@ -5,7 +5,13 @@ on:
       - main
 jobs:
   test:
+    environment: test
     runs-on: ubuntu-latest
+    env:
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_USER: ${{ secrets.DB_USER }}
+      PORT: 8000
     steps:
       - name: Setup nodejs 16
         uses: actions/setup-node@v2
