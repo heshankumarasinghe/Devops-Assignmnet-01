@@ -3,9 +3,10 @@ on:
   push:
     branches:
       - main
+env:
+  DB_CONNECTION_STRING: mongodb+srv://<DB_USER>:<PASSWORD>@cluster0.ezbuktp.mongodb.net/<DB_NAME>?retryWrites=true&w=majority
+  PORT: 8000
 jobs:
-  env:
-    DB_CONNECTION_STRING: mongodb+srv://<DB_USER>:<PASSWORD>@cluster0.ezbuktp.mongodb.net/<DB_NAME>?retryWrites=true&w=majority
   test:
     environment: test
     runs-on: ubuntu-latest
@@ -13,7 +14,6 @@ jobs:
       DB_NAME: ${{ secrets.DB_NAME }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       DB_USER: ${{ secrets.DB_USER }}
-      PORT: 8000
     steps:
       - name: Setup nodejs 16
         uses: actions/setup-node@v2
