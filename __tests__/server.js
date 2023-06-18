@@ -1,6 +1,10 @@
+const path = require('path');
+const dotenv = require('dotenv');
+
 const supertest = require('supertest');
 const dotenv = require('dotenv');
 const mongoose = require("mongoose")
+
 const createServer = require("../server")
 
 beforeAll((done) => {
@@ -8,11 +12,7 @@ beforeAll((done) => {
 });
 
 beforeEach((done) => {
-    dotenv.config({path: './config.env'});
-
-    console.log('>>>> ENV VARS <<<<');
-    console.log(process.env.DB_CONNECTION_STRING);
-    console.log(process.env.DB_NAME);
+    dotenv.config({path: path.join(__dirname, '__tests__', 'config.env')});
 
     const DB = process.env.DB_CONNECTION_STRING
     .replace(
