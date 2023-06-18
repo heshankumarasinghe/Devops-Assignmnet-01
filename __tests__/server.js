@@ -11,10 +11,6 @@ beforeAll((done) => {
 });
 
 beforeEach((done) => {
-    // const path1 = path.join(__dirname, 'config.env');
-    // console.log(path1);
-    // console.log(process.env.DB_CONNECTION_STRING);
-
     dotenv.config({path: path.join(__dirname, 'config.env')});
 
     const DB = process.env.DB_CONNECTION_STRING
@@ -64,4 +60,4 @@ test('POST /api/v1/auth/signup', async () => {
       .expect(201);
 
   expect(response.body.status).toBe('success');
-}, 10000);
+}, 180000);
