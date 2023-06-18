@@ -43,8 +43,6 @@ jobs:
           name: test-report
           path: test.json
 
-          name: Node.js CI
-
   build:
     runs-on: self-hosted
     steps:
