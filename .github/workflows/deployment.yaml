@@ -65,17 +65,27 @@ jobs:
       #     echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
       #     echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
       #     echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
-      - name: Persist environment variables
+      # - name: Persist environment variables
+      #   run: |
+      #     chmod +x ./.github/workflows/scripts/persist-env-vars.sh
+      #     ./.github/workflows/scripts/persist-env-vars.sh \
+      #     "${{ env.PORT }}" \
+      #     "${{ env.DB_CONNECTION_STRING }}" \
+      #     ${{ secrets.DB_NAME }} \
+      #     ${{ secrets.DB_PASSWORD }} \
+      #     ${{ secrets.DB_USER }} \
+      #     ${{ secrets.JWT_SECRET }} \
+      #     ${{ secrets.JWT_EXPIRES_IN }}
+      - name: Create config.env file
         run: |
-          chmod +x ./.github/workflows/scripts/persist-env-vars.sh
-          ./.github/workflows/scripts/persist-env-vars.sh \
-          "${{ env.PORT }}" \
-          "${{ env.DB_CONNECTION_STRING }}" \
-          ${{ secrets.DB_NAME }} \
-          ${{ secrets.DB_PASSWORD }} \
-          ${{ secrets.DB_USER }} \
-          ${{ secrets.JWT_SECRET }} \
-          ${{ secrets.JWT_EXPIRES_IN }}
+          echo "DB_NAME=${{ secrets.DB_NAME }}" > config.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> config.env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> config.env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> config.env
+          echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> config.env
+          echo "DB_CONNECTION_STRING=${{ env.DB_CONNECTION_STRING }}" >> config.env
+          echo "PORT=${{ env.PORT }}" >> config.env
+        working-directory: ${{ github.workspace }}
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
