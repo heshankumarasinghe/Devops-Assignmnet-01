@@ -5,7 +5,6 @@ on:
       - main
   workflow_dispatch:
 env:
-  ACTIONS_RUNNER_DEBUG: true
   DB_CONNECTION_STRING: mongodb+srv://<DB_USER>:<PASSWORD>@cluster0.ezbuktp.mongodb.net/<DB_NAME>?retryWrites=true&w=majority
   PORT: 8000
 jobs:
@@ -21,8 +20,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Create config.env file
         run: |
-          echo "DB_NAME=${{ secrets.DB_NAME }}" > __tests__/config.env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> __tests__/config.env
+          echo "DB_NAME=test" > __tests__/config.env
+          echo "DB_PASSWORD=blah" >> __tests__/config.env
           echo "DB_USER=${{ secrets.DB_USER }}" >> __tests__/config.env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> __tests__/config.env
           echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> __tests__/config.env
