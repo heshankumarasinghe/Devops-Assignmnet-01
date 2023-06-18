@@ -28,7 +28,7 @@ jobs:
       - name: Persist environment variables
         run: |
           chmod +x ./.github/workflows/scripts/persist-env-vars.sh
-          ./.github/workflows/scripts/persist-env-vars.sh
+          ./.github/workflows/scripts/persist-env-vars.sh ${{ secrets.DB_NAME }} ${{ secrets.DB_PASSWORD }} ${{ secrets.DB_USER }} ${{ secrets.JWT_SECRET }} ${{ secrets.JWT_EXPIRES_IN }}
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
@@ -68,7 +68,7 @@ jobs:
       - name: Persist environment variables
         run: |
           chmod +x ./.github/workflows/scripts/persist-env-vars.sh
-          ./.github/workflows/scripts/persist-env-vars.sh
+          ./.github/workflows/scripts/persist-env-vars.sh ${{ secrets.DB_NAME }} ${{ secrets.DB_PASSWORD }} ${{ secrets.DB_USER }} ${{ secrets.JWT_SECRET }} ${{ secrets.JWT_EXPIRES_IN }}
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
