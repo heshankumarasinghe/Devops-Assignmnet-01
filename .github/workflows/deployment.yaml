@@ -10,6 +10,12 @@ env:
 jobs:
   test:
     environment: Test
+    env:
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_USER: ${{ secrets.DB_USER }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
     runs-on: self-hosted
     steps:
       - name: Setup nodejs 18
@@ -18,13 +24,13 @@ jobs:
           node-version: 18
       - name: Get Code
         uses: actions/checkout@v3
-      - name: Set environment variables
-        run: |
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
-          echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
-          echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
+      # - name: Set environment variables
+      #   run: |
+      #     echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+      #     echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+      #     echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
+      #     echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+      #     echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
