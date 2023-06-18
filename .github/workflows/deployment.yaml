@@ -28,7 +28,7 @@ jobs:
       - name: Export environment variables
         run: |
           chmod +x export-env-vars.sh
-          ./export-env-vars.sh
+          ./scripts/export-env-vars.sh
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
