@@ -9,7 +9,7 @@ env:
   PORT: 8000
 jobs:
   test:
-    environment: test
+    environment: Test
     runs-on: ubuntu-latest
     env:
       DB_NAME: ${{ secrets.DB_NAME }}
@@ -45,7 +45,7 @@ jobs:
 
   build:
     needs: test
-    environment: production
+    environment: Production
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v3
