@@ -1,9 +1,8 @@
 const path = require('path');
-const dotenv = require('dotenv');
 
-const supertest = require('supertest');
 const dotenv = require('dotenv');
 const mongoose = require("mongoose")
+const supertest = require('supertest');
 
 const createServer = require("../server")
 
