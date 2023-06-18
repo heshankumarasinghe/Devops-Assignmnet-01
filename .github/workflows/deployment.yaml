@@ -25,11 +25,6 @@ jobs:
           echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
           echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
-          echo "::set-env name=DB_NAME::${{ secrets.DB_NAME }}"
-          echo "::set-env name=DB_PASSWORD::${{ secrets.DB_PASSWORD }}"
-          echo "::set-env name=DB_USER::${{ secrets.DB_USER }}"
-          echo "::set-env name=JWT_SECRET::${{ secrets.JWT_SECRET }}"
-          echo "::set-env name=JWT_EXPIRES_IN::${{ secrets.JWT_EXPIRES_IN }}"
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
@@ -66,11 +61,6 @@ jobs:
           echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
           echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
-          echo "::set-env name=DB_NAME::${{ secrets.DB_NAME }}"
-          echo "::set-env name=DB_PASSWORD::${{ secrets.DB_PASSWORD }}"
-          echo "::set-env name=DB_USER::${{ secrets.DB_USER }}"
-          echo "::set-env name=JWT_SECRET::${{ secrets.JWT_SECRET }}"
-          echo "::set-env name=JWT_EXPIRES_IN::${{ secrets.JWT_EXPIRES_IN }}"
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
