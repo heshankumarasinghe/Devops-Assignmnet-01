@@ -11,7 +11,11 @@ beforeAll((done) => {
 });
 
 beforeEach((done) => {
-    dotenv.config({path: path.join(__dirname, '__tests__', 'config.env')});
+    // const path1 = path.join(__dirname, 'config.env');
+    // console.log(path1);
+    // console.log(process.env.DB_CONNECTION_STRING);
+
+    dotenv.config({path: path.join(__dirname, 'config.env')});
 
     const DB = process.env.DB_CONNECTION_STRING
     .replace(
