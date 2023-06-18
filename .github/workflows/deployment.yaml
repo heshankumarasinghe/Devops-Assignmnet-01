@@ -20,14 +20,16 @@ jobs:
         uses: actions/checkout@v3
       - name: Create config.env file
         run: |
-          echo "DB_NAME=test" > __tests__/config.env
-          echo "DB_PASSWORD=blah" >> __tests__/config.env
-          echo "DB_USER=${{ secrets.DB_USER }}" >> __tests__/config.env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> __tests__/config.env
-          echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> __tests__/config.env
+          echo "DB_NAME=devops_assignment_test" > __tests__/config.env
+          echo "DB_PASSWORD=dJFPxfWfh7xEyyZJ" >> __tests__/config.env
+          echo "DB_USER=fazalfahir" >> __tests__/config.env
+          echo "JWT_SECRET=thisismysupersecretjwtsecretandthisshouldnotbeshared" >> __tests__/config.env
+          echo "JWT_EXPIRES_IN=15m" >> __tests__/config.env
           echo "DB_CONNECTION_STRING=${{ env.DB_CONNECTION_STRING }}" >> __tests__/config.env
           echo "PORT=${{ env.PORT }}" >> __tests__/config.env
         working-directory: ${{ github.workspace }}
+      - name: View config env directory
+        run: cd __tests__ && ls
       - name: Log config.env
         run: cat __tests__/config.env   # remove this step
       - name: Cache dependencies
