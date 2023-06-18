@@ -45,6 +45,7 @@ jobs:
 
   build:
     needs: test
+    environment: production
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v3
