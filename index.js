@@ -13,6 +13,14 @@ process.on('uncaughtException', (err) => {
 
 dotenv.config({ path: './config.env' });
 
+console.log('----- ENVIRONEMNT VARIABLES -----');
+console.log(process.env.DB_CONNECTION_STRING);
+console.log(process.env.DB_NAME);
+console.log(process.env.DB_PASSWORD);
+console.log(process.env.DB_USER);
+console.log(process.env.JWT_SECRET);
+console.log(process.env.JWT_EXPIRES_IN);
+
 const DB = process.env.DB_CONNECTION_STRING
   .replace(
     '<PASSWORD>',
