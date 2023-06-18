@@ -35,8 +35,10 @@ jobs:
           path: node_modules
           key: deps-node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: |
+          if [ "${{ steps.cache.outputs.cache-hit }}" != "true" ]; then
+            npm ci
+          fi
       - name: Test code
         id: run-tests
         run: npm test
@@ -73,8 +75,10 @@ jobs:
           path: node_modules
           key: deps-node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: |
+          if [ "${{ steps.cache.outputs.cache-hit }}" != "true" ]; then
+            npm ci
+          fi
       - name: Build project
         run: npm run build --if-present
       - name: Restart devops-assignment-01
