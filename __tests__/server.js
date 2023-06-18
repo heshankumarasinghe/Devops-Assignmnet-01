@@ -10,6 +10,10 @@ beforeAll((done) => {
 beforeEach((done) => {
     dotenv.config({path: './config.env'});
 
+    console.log('>>>> ENV VARS <<<<');
+    console.log(process.env.DB_CONNECTION_STRING);
+    console.log(process.env.DB_NAME);
+
     const DB = process.env.DB_CONNECTION_STRING
     .replace(
       '<PASSWORD>',
