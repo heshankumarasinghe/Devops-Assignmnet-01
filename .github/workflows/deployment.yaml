@@ -28,6 +28,8 @@ jobs:
           echo "DB_CONNECTION_STRING=${{ env.DB_CONNECTION_STRING }}" >> __tests__/config.env
           echo "PORT=${{ env.PORT }}" >> __tests__/config.env
         working-directory: ${{ github.workspace }}
+      - name: Log config.env
+        run: cat __tests__/config.env   # remove this step
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
