@@ -27,8 +27,8 @@ jobs:
           echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
       - name: Export environment variables
         run: |
-          chmod +x ./scripts/export-env-vars.sh
-          ./scripts/export-env-vars.sh
+          chmod +x ./.github/workflows/scripts/export-env-vars.sh
+          ./.github/workflows/scripts/export-env-vars.sh
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
@@ -67,8 +67,8 @@ jobs:
           echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
       - name: Export environment variables
         run: |
-          chmod +x ./scripts/export-env-vars.sh
-          ./scripts/export-env-vars.sh
+          chmod +x ./.github/workflows/scripts/export-env-vars.sh
+          ./.github/workflows/scripts/export-env-vars.sh
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
