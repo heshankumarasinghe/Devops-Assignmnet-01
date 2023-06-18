@@ -25,6 +25,10 @@ jobs:
           echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
           echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
+      - name: Export environment variables
+        run: |
+          chmod +x export-env-vars.sh
+          ./export-env-vars.sh
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
@@ -61,6 +65,10 @@ jobs:
           echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
           echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
+      - name: Export environment variables
+        run: |
+          chmod +x export-env-vars.sh
+          ./export-env-vars.sh
       - name: Cache dependencies
         uses: actions/cache@v3
         with:

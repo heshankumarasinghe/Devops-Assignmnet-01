@@ -1,5 +1,5 @@
 const supertest = require('supertest');
-// const dotenv = require('dotenv');
+const dotenv = require('dotenv');
 const mongoose = require("mongoose")
 const createServer = require("../server")
 
@@ -8,7 +8,7 @@ beforeAll((done) => {
 });
 
 beforeEach((done) => {
-    // dotenv.config({path: './config.env'});
+    dotenv.config({path: './config.env'});
 
     const DB = process.env.DB_CONNECTION_STRING
     .replace(
