@@ -60,4 +60,4 @@ test('POST /api/v1/auth/signup', async () => {
       .expect(201);
 
   expect(response.body.status).toBe('success');
-}, 180000);
+}, 120000);
