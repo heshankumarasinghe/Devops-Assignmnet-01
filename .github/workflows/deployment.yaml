@@ -19,8 +19,29 @@ jobs:
         with:
           node-version: 18
 
-  test:
+  cache-dependencies:
     needs: setup-node
+    runs-on: self-hosted
+    steps:
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: deps-node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+  install-dependencies:
+    needs: cache-dependencies
+    runs-on: self-hosted
+    steps:
+      - name: Install dependencies
+        run: |
+          if [ "${{ steps.cache.outputs.cache-hit }}" != "true" ]; then
+            npm ci
+          fi
+
+  test:
+    needs: [setup-node, cache-dependencies, install-dependencies]
     environment: Test
     runs-on: self-hosted
     steps:
@@ -36,17 +57,6 @@ jobs:
           echo "DB_CONNECTION_STRING=${{ env.DB_CONNECTION_STRING }}" >> __tests__/config.env
           echo "PORT=${{ env.PORT }}" >> __tests__/config.env
         working-directory: ${{ github.workspace }}
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        run: |
-          if [ "${{ steps.cache.outputs.cache-hit }}" != "true" ]; then
-            npm ci
-          fi
       - name: Test code
         id: run-tests
         run: npm test
@@ -58,7 +68,7 @@ jobs:
           path: test.json
 
   build:
-    needs: [setup-node, test]
+    needs: [setup-node, cache-dependencies, install-dependencies, test]
     environment: Production
     runs-on: self-hosted
     steps:
@@ -73,16 +83,6 @@ jobs:
           echo "DB_CONNECTION_STRING=${{ env.DB_CONNECTION_STRING }}" >> config.env
           echo "PORT=${{ env.PORT }}" >> config.env
         working-directory: ${{ github.workspace }}
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        run: |
-          if [ "${{ steps.cache.outputs.cache-hit }}" != "true" ]; then
-            npm ci
-          fi
       - name: Build project
         run: npm run build --if-present
       - name: Restart devops-assignment-01
