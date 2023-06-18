@@ -35,10 +35,11 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Install dependencies
-        run: |
-          if [ "${{ steps.cache.outputs.cache-hit }}" != "true" ]; then
-            npm ci
-          fi
+        run: npm ci
+        # run: |
+        #   if [ "${{ steps.cache.outputs.cache-hit }}" != "true" ]; then
+        #     npm ci
+        #   fi
 
   test:
     needs: [setup-node, cache-dependencies, install-dependencies]
