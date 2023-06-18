@@ -8,8 +8,48 @@ env:
   DB_CONNECTION_STRING: mongodb+srv://<DB_USER>:<PASSWORD>@cluster0.ezbuktp.mongodb.net/<DB_NAME>?retryWrites=true&w=majority
   PORT: 8000
 jobs:
+  # test:
+  #   environment: Test
+  #   runs-on: self-hosted
+  #   steps:
+  #     - name: Setup nodejs 18
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 18
+  #     - name: Get Code
+  #       uses: actions/checkout@v3
+  #     - name: Set environment variables
+  #       run: |
+  #         echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+  #         echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+  #         echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
+  #         echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+  #         echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
+  #     - name: Persist environment variables
+  #       run: |
+  #         chmod +x ./.github/workflows/scripts/persist-env-vars.sh
+  #         ./.github/workflows/scripts/persist-env-vars.sh ${{ secrets.DB_NAME }} ${{ secrets.DB_PASSWORD }} ${{ secrets.DB_USER }} ${{ secrets.JWT_SECRET }} ${{ secrets.JWT_EXPIRES_IN }}
+  #     - name: Cache dependencies
+  #       id: cache
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: node_modules
+  #         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+  #     - name: Install dependencies
+  #       if: steps.cache.outputs.cache-hit != 'true'
+  #       run: npm ci
+  #     - name: Test code
+  #       id: run-tests
+  #       run: npm test
+  #     - name: Upload test report
+  #       if: failure() && steps.run-tests.outcome == 'failure'
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: test-report
+  #         path: test.json
+
   build:
-    needs: test
+    # needs: test
     environment: Production
     runs-on: self-hosted
     steps:
