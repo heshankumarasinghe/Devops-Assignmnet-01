@@ -11,12 +11,6 @@ jobs:
   test:
     environment: Test
     runs-on: self-hosted
-    env:
-      DB_NAME: ${{ secrets.DB_NAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      DB_USER: ${{ secrets.DB_USER }}
-      JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
     steps:
       - name: Setup nodejs 18
         uses: actions/setup-node@v2
@@ -24,6 +18,12 @@ jobs:
           node-version: 18
       - name: Get Code
         uses: actions/checkout@v3
+      - name: Load environment variables
+        run: echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+      - run: echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+      - run: echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
+      - run: echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+      - run: echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
@@ -48,21 +48,26 @@ jobs:
     environment: Production
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3
-    - name: Install node js 18
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-    - name: Cache dependencies
-      uses: actions/cache@v3
-      with:
-        path: node_modules
-        key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-    - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: npm ci
-    - name: Build project
-      run: npm run build --if-present    
-    - name: Restart devops-assignment-01
-      run: sudo pm2 restart devops-assignment-01
-    
+      - uses: actions/checkout@v3
+      - name: Install node js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Load environment variables
+        run: echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+      - run: echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+      - run: echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
+      - run: echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+      - run: echo "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}" >> $GITHUB_ENV
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Build project
+        run: npm run build --if-present
+      - name: Restart devops-assignment-01
+        run: sudo pm2 restart devops-assignment-01
