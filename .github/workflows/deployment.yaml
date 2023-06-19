@@ -86,7 +86,6 @@ jobs:
         run: |
           pm2 describe devops-assignment-01
           echo "::set-output name=is_running::true"
-        ignore_errors: true
       - name: Start devops-assignment-01 if not running
         if: ${{ steps.check_pm2.outputs.is_running != 'true' }}
         run: pm2 start /home/ec2-user/devops-assignment-01/_work/Devops-Assignmnet-01/Devops-Assignmnet-01/index.js --name devops-assignment-01
