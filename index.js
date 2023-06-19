@@ -1,8 +1,9 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
-const createServer = require('./server');
-const AppError = require('./utils/appError');
+const DB = require('./utils/DB');
+
+const app = require('./app');
 
 process.on('uncaughtException', (err) => {
     console.log('Unhandled Exception. Shutting Down...');
@@ -13,36 +14,7 @@ process.on('uncaughtException', (err) => {
 
 dotenv.config({ path: './config.env' });
 
-console.log('----- ENVIRONEMNT VARIABLES -----');
-console.log(process.env.DB_CONNECTION_STRING);
-console.log(process.env.DB_NAME);
-console.log(process.env.DB_PASSWORD);
-console.log(process.env.DB_USER);
-console.log(process.env.JWT_SECRET);
-console.log(process.env.JWT_EXPIRES_IN);
-
-const DB = process.env.DB_CONNECTION_STRING
-  .replace(
-    '<PASSWORD>',
-    process.env.DB_PASSWORD
-  )
-  .replace(
-      '<DB_NAME>',
-      process.env.DB_NAME
-  )
-  .replace(
-      '<DB_USER>',
-      process.env.DB_USER
-  );
-
-mongoose
-    .connect(DB, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => console.log('Connected to the database successfully!'));
-
-const app = createServer();
+DB.connectDB();
 
 const port = process.env.PORT || 8000;
 

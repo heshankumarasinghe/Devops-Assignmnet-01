@@ -1,4 +1,4 @@
-name: Deployment
+name: Test and Build
 on:
   push:
     branches:
@@ -79,15 +79,23 @@ jobs:
           if [ "${{ steps.cache.outputs.cache-hit }}" != "true" ]; then
             npm ci
           fi
-      - name: Build project
-        run: npm run build --if-present
-      - name: Check if devops-assignment-01 is running
+      - name: Check if Devops-Assignment-01 is running
         id: check_pm2
         run: |
-          pm2 describe devops-assignment-01
-          echo "::set-output name=is_running::true"
-      - name: Start devops-assignment-01 if not running
-        if: ${{ steps.check_pm2.outputs.is_running != 'true' }}
-        run: pm2 start /home/ec2-user/devops-assignment-01/_work/Devops-Assignmnet-01/Devops-Assignmnet-01/index.js --name devops-assignment-01
-      - name: Restart devops-assignment-01
-        run: sudo pm2 restart devops-assignment-01
+          status=$(pm2 list | grep -w "Devops-Assignment-01" | awk '{print $18}')
+          if [[ "$status" == "online" ]]; then
+            echo "::set-output name=pm2_status::online"
+          elif [[ "$status" == "stopped" ]]; then
+            echo "::set-output name=pm2_status::stopped"
+          else
+            echo "::set-output name=pm2_status::"
+          fi
+      - name: Start Devops-Assignment-01 if pm2 is not started yet
+        if: steps.check_pm2.outputs.pm2_status == ''
+        run: sudo pm2 start /home/ec2-user/devops-assignment-01/_work/Devops-Assignmnet-01/Devops-Assignmnet-01/index.js --name=Devops-Assignment-01
+      - name: Start Devops-Assignment-01 if pm2 is stopped
+        if: steps.check_pm2.outputs.pm2_status == 'stopped'
+        run: sudo pm2 start Devops-Assignment-01
+      - name: Restart Devops-Assignment-01 if pm2 is online
+        if: steps.check_pm2.outputs.pm2_status == 'online'
+        run: sudo pm2 restart Devops-Assignment-01

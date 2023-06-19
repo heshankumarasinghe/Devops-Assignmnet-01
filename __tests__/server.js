@@ -4,46 +4,17 @@ const dotenv = require('dotenv');
 const mongoose = require("mongoose")
 const supertest = require('supertest');
 
-const createServer = require("../server")
+const app = require("../app")
+const DB = require('../utils/DB');
 
-beforeAll((done) => {
-  done();
-});
+beforeEach(async () => {
+  dotenv.config({path: path.join(__dirname, 'config.env')});
 
-beforeEach((done) => {
-    dotenv.config({path: path.join(__dirname, 'config.env')});
-
-    const DB = process.env.DB_CONNECTION_STRING
-    .replace(
-      '<PASSWORD>',
-      process.env.DB_PASSWORD
-    )
-    .replace(
-      '<DB_NAME>',
-      process.env.DB_NAME
-    )
-    .replace(
-      '<DB_USER>',
-      process.env.DB_USER
-    );
-  
-  mongoose
-      .connect(DB, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
-      })
-      .then(() => { 
-        console.log('Connected to the database successfully!'); 
-      });
-
-  done();
+  await DB.connectDB();
 })
 
-const app = createServer();
-
-afterEach((done) => {
-	mongoose.connection.db.dropDatabase(() => mongoose.connection.close());
-  done();
+afterEach(async () => {
+	await mongoose.connection.db.dropDatabase(() => mongoose.connection.close());
 })
 
 test('POST /api/v1/auth/signup', async () => {
