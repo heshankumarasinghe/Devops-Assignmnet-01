@@ -1,4 +1,4 @@
-const path = require('path');
+dsconst path = require('path');
 
 const dotenv = require('dotenv');
 const mongoose = require("mongoose")
@@ -32,3 +32,5 @@ test('POST /api/v1/auth/signup', async () => {
 
   expect(response.body.status).toBe('success');
 }, 120000);
+
+Just tried to fork
